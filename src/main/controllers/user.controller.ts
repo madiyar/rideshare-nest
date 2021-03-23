@@ -85,6 +85,8 @@ export class UserController {
   )
   async uploadedFile(@Param('id') id: number, @UploadedFile() file) {
     this.rootProvider.update(id, { photo: file.filename });
-    return file.filename;
+    return {
+      photo: file.filename
+    };
   }
 }
