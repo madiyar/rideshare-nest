@@ -1,6 +1,11 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, UploadedFile } from "@nestjs/common";
 import { UserProvider } from "../providers/user.provider";
 import { NotFoundInterceptor } from "../shared/notfound";
+
+// upload car photo
+import { FileInterceptor } from "@nestjs/platform-express";
+import { editFileName, imageFileFilter } from "../shared/file-upload.util";
+import { diskStorage } from 'multer';
 
 // https://picsum.photos/seed/1/200/200
 
@@ -66,5 +71,24 @@ export class UserController {
   @Delete(':id')
   delete(@Param('id') id: number) {
     return this.rootProvider.delete(id);
+  }
+
+  @Post('image')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName
+      }),
+      fileFilter: imageFileFilter
+    })
+  )
+  async uploadedFile(@UploadedFile() file) {
+    console.log(file, 'file');
+    const response = {
+      originalname: file.originalname, // oldname
+      filename: file.filename // new name
+    };
+    return response;
   }
 }

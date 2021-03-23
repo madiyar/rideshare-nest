@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
+
+// module
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MainModule } from './main/main.module';
 
+// entities
 import { City } from './main/entities/City';
 import { User } from './main/entities/User';
 import { UserTrips } from './main/entities/UserTrips';
@@ -12,7 +18,6 @@ import { Passenger } from './main/entities/Passenger';
 
 @Module({
   imports: [
-    // DO'NT MODIFY MY DATABASE PLEASSEEE ^_^
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'den1.mysql5.gear.host',
@@ -30,6 +35,12 @@ import { Passenger } from './main/entities/Passenger';
       synchronize: true,
     }),
     MainModule,
+    MulterModule.register({
+      dest: './uploads'
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads')
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
