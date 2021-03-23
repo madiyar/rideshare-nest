@@ -73,7 +73,7 @@ export class UserController {
     return this.rootProvider.delete(id);
   }
 
-  @Post('image')
+  @Post('image/:id')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -83,12 +83,8 @@ export class UserController {
       fileFilter: imageFileFilter
     })
   )
-  async uploadedFile(@UploadedFile() file) {
-    console.log(file, 'file');
-    const response = {
-      originalname: file.originalname, // oldname
-      filename: file.filename // new name
-    };
-    return response;
+  async uploadedFile(@Param('id') id: number, @UploadedFile() file) {
+    this.rootProvider.update(id, { photo: file.filename });
+    return file.filename;
   }
 }

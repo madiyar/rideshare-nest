@@ -13,6 +13,9 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column({ default: '' })
+  photo: string;
+
   @Column({unique: true})
   phone: string;
 

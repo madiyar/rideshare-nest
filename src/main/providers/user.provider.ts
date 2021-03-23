@@ -25,7 +25,7 @@ export class UserProvider {
   }
 
   // INSERT INTO
-  create(data: User) {
+  create(data: Partial<User>) {
     return this.repository.save(data);
   }
 
