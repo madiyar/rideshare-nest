@@ -11,6 +11,7 @@ import { MainModule } from './main/main.module';
 
 // entities
 import { City } from './main/entities/City';
+import { Comment } from './main/entities/Comment';
 import { User } from './main/entities/User';
 import { UserTrips } from './main/entities/UserTrips';
 import { Trip } from './main/entities/Trip';
@@ -27,6 +28,7 @@ import { Passenger } from './main/entities/Passenger';
       database: 'kolik',
       entities: [
         City,
+        Comment,
         User,
         Trip,
         Passenger,
